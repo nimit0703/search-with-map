@@ -1,5 +1,5 @@
 <template>
-  <div id="map" class="w-full h-full">
+  <div id="map" class="w-full h-auto rounded-lg">
   </div>
 </template>
 
@@ -18,7 +18,7 @@ let L;
 const map = ref(null);
 const markers = ref([]);
 
-onMounted(async() => {
+onMounted(async () => {
   if (process.client) {
     L = (await import('leaflet')).default; // Dynamically import Leaflet
 
@@ -45,20 +45,22 @@ const showHotelsOnMap = (hotelData) => {
   if (!map.value) return;
 
   // Clear existing markers
-  markers.value.forEach(marker => marker.remove());
+  markers.value.forEach(marker => {
+    marker.remove()
+  });
   markers.value = [];
   const fuelIcon = L.icon({
-  iconUrl: 'fuelStation.png', // Fuel station icon
-  iconSize: [30, 30], // Size of the icon
-  iconAnchor: [15, 30], // Anchor point of the icon
-  popupAnchor: [0, -30] // Position of popup relative to the icon
-});
+    iconUrl: 'fuelStation.png', // Fuel station icon
+    iconSize: [30, 30], // Size of the icon
+    iconAnchor: [15, 30], // Anchor point of the icon
+    popupAnchor: [0, -30] // Position of popup relative to the icon
+  });
   hotelData.forEach(hotel => {
     const hotelLat = hotel?.lat || hotel?.center?.lat;
     const hotelLon = hotel?.lon || hotel?.center?.lon;
     if (!hotelLat || !hotelLon) return;
-    
-    const marker = L.marker([hotelLat, hotelLon],{ icon: fuelIcon }).addTo(map.value);
+
+    const marker = L.marker([hotelLat, hotelLon], { icon: fuelIcon }).addTo(map.value);
     marker.bindPopup(`<b>${hotel.tags.name || 'Unnamed Hotel'}</b><br>${hotel.tags.description || 'No description'}`);
     markers.value.push(marker);
   });
@@ -74,7 +76,17 @@ const handleMapMove = async () => {
 
 <style scoped>
 #map {
-  height: 100vh; /* Ensure map takes full height */
-  width: 100%; /* Ensure map takes full width */
+  height: 90vh;
+  width: 90%;
+  margin: auto;
+}
+
+.fade-out {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade-out.leaflet-marker-icon {
+  opacity: 0;
 }
 </style>

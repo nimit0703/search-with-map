@@ -27,7 +27,7 @@ import { ref } from 'vue';
 const hotels = ref([]);
 const loading = ref(false);
 const mapCenter = ref([28.6139, 77.2090]); // Default to Delhi
-const mapZoom = ref(12);
+const mapZoom = ref(14);
 
 const searchHotels = async (city) => {
   loading.value = true;
@@ -37,7 +37,9 @@ const searchHotels = async (city) => {
   }
   loading.value = false;
 };
-
+onMounted(()=>{
+  searchHotels("delhi");
+})
 const clearHotels = () => {
   hotels.value = [];
 };

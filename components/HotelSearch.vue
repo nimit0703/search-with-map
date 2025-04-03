@@ -1,5 +1,5 @@
 <template>
-  <div class="relative" :class="colapse ? 'w-12':'w-1/3'">
+  <div class="relative shadow-lg shadow-black" :class="colapse ? 'w-12':'w-1/3'">
     <div class="p-4 justify-center w-full" >
         <input
             v-model="city"
@@ -16,7 +16,7 @@
   
       <!-- Hotels Listing -->
 
-      <div v-else-if="hotels.length && !colapse" class="space-y-4 overflow-y-auto h-screen px-2" >
+      <div v-else-if="hotels.length && !colapse" class="space-y-4 overflow-y-auto h-[86vh] px-2" >
         <ul>
           <li
             v-for="hotel in hotels"
@@ -77,7 +77,7 @@
     loading: Boolean,
   });
   
-  const city = ref('');
+  const city = ref('delhi');
   
   // Search hotels when city is entered
   const searchHotels = async () => {
