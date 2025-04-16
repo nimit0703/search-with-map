@@ -1,7 +1,6 @@
 <template>
   <div class="flex">
-    <!-- Left Side: Hotel Listings -->
-    <HotelSearch
+    <ProductSearch
       :hotels="hotels" 
       :loading="loading" 
       @search-hotels="searchHotels" 
@@ -11,7 +10,6 @@
     />
     
     
-    <!-- Right Side: Map -->
     <HotelMap 
     :hotels="hotels" 
     :map-center="mapCenter" 
@@ -28,6 +26,7 @@ const hotels = ref([]);
 const loading = ref(false);
 const mapCenter = ref([28.6139, 77.2090]); // Default to Delhi
 const mapZoom = ref(14);
+
 
 const searchHotels = async (city) => {
   loading.value = true;
