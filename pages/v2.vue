@@ -12,6 +12,7 @@
             <div class="grid grid-cols-4 gap-2  h-full ">
                 <div class="hidden lg:block">
                     <!-- Listing part -->
+                    <ProductList :products="products" />
                 </div>
                 <div class="col-span-4 lg:col-span-3">
                     <!-- Map Part -->
@@ -23,8 +24,9 @@
     </div>
 
 
-    <USlideover v-model="isDrawerOpen"  title="Dropdown in Drawer" prevent-close side="left" class="z-[9999]">
-        <SlideoverContent @close="isDrawerOpen = false" @update-service="updateService" />
+    <USlideover v-model="isDrawerOpen" title="Dropdown in Drawer" prevent-close side="left" class="z-[9999]">
+        <SlideoverContent @close="isDrawerOpen = false" @update-service="updateService" :service="selectedService"
+            :category="selectedCategory" />
     </USlideover>
 </template>
 
@@ -65,10 +67,14 @@ const services = [
 ]
 
 const products = ref([])
+
+const mapCords = ref({})
+
 const updateService = (data) => {
     selectedService.value = data.selectedService
     selectedCategory.value = data.selectedCategory
     isDrawerOpen.value = false
+    handleMapMove(mapCords.value)
 }
 // Category options (unique)
 const categoryOptions = [
@@ -82,6 +88,7 @@ const categoryOptions = [
 
 const handleMapMove = async (moveData) => {
     const { lat, lon, zoom } = moveData;
+    mapCords.value = { lat, lon, zoom }
     mapCenter.value = [lat, lon];
     mapZoom.value = zoom;
     try {
