@@ -1,6 +1,7 @@
 <template>
-  <div id="map" class="w-full h-auto">
-  </div>
+  <div id="map" class="w-full h-auto rounded-br-[7%] rounded-tr-[7%] shadow-xl shadow-black border border-gray-300 transform perspective-[900px] rotate-x-[2deg] transition duration-300">
+</div>
+
 </template>
 
 <script setup>
@@ -40,6 +41,20 @@
     showProductsOnMap(newProducts);
   }, { immediate: false });
 
+  watch(
+    () => [props.mapCenter, props.mapZoom],
+    ([newCenter, newZoom], [oldCenter, oldZoom]) => {
+      if (
+        map.value &&
+        newCenter &&
+        newZoom !== undefined &&
+        (!oldCenter || newCenter[0] !== oldCenter[0] || newCenter[1] !== oldCenter[1] || newZoom !== oldZoom)
+      ) {
+        map.value.setView(newCenter, newZoom);
+      }
+    },
+    { deep: true }
+  );
 
   const showProductsOnMap = (productData) => {
     if (!map.value) return;
@@ -78,5 +93,6 @@
   height: 100%;
   width: 100%;
   margin: auto;
+  border-radius: 0px 7%  7% 0px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col h-full  p-4">
+    <div class="flex flex-col h-full  p-4  rounded bg-gray-950">
         <div class="flex items-center justify-between">
             <div class=""></div>
             <div class="flex gap-2 items-center">
@@ -8,7 +8,8 @@
                     NearbyLocator
                 </h3>
             </div>
-            <UButton color="gray" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="close" />
+            <UIcon name="i-heroicons-x-mark" class="size-5 hover:bg-slate-500"  @click="close" />
+
         </div>
 
         <!-- Body -->
@@ -21,14 +22,18 @@
                 value-attribute="key" placeholder="Select Service" size="xl" class="w-full"
                 :disabled="!selectedCategory" icon="i-heroicons-squares-plus-20-solid" />
 
+            <LocationSearchInput @location-selected="handleLocationSelected"/>
+
             <div class="pt-4 text-sm text-gray-500">
                 <strong>Selected:</strong>
                 <pre>{{ selectedCategory }} / {{ selectedService }}</pre>
             </div>
-            <div class="pt-4 text-sm text-gray-500 mt-52">
+            <div class="pt-4 text-sm text-gray-500 mt-52 pa">
                 <strong>Marker Icon:</strong>
+            </div>
+            <div class="flex py-12 px-2 justify-center">
                 <template v-if="selectedCategory">
-                    <img :src="stringUrl" alt="icon" class="w-48 h-48 m-auto">
+                    <img :src="stringUrl" alt="icon" class="w-48 h-48 ">
                 </template>
                 <template v-else>
                     <img src="/logo1.png" alt="icon" class="w-48 h-48 m-auto opacity-15">
@@ -82,6 +87,7 @@ const services = [
     { category: 'public_transport', key: 'bus_stop', label: 'Bus Stop' },
     { category: 'railway', key: 'station', label: 'Train Station' }
 ]
+const selectedLocation = ref(null)
 const close = () => {
     emit('close')
 }
@@ -89,6 +95,7 @@ const close = () => {
 onMounted(() => {
     selectedCategory.value = props.category
     selectedService.value = props.service
+    selectedLocation.value = null
 })
 
 // Category options (unique)
@@ -101,13 +108,17 @@ const categoryOptions = [
     { key: 'railway', label: 'Railway' }
 ]
 
+const handleLocationSelected = (location) => {
+  selectedLocation.value = location;
+  // Use it to update map or filter logic
+}
 // Filtered services based on selected category
 watch(selectedService, () => {
     stringUrl.value = `/markers/${selectedService.value}.png`
 }, { immediate: true })
 
 const applyFilter = () => {
-    emit('update-service', { selectedCategory: selectedCategory.value, selectedService: selectedService.value })
+    emit('update-service', { selectedCategory: selectedCategory.value, selectedService: selectedService.value, selectedLocation: selectedLocation.value })
 }
 
 const filteredServices = computed(() =>

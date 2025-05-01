@@ -1,11 +1,18 @@
 <template>
-    <div class="flex flex-col gap-4 py-4 pr-2 justify-end items-end">
-        <div class="flex">
-            <h1 class="italic mr-2 text-gray-400"> Total Products</h1>
-            <h1>{{ products.length || 'Null' }}</h1>
+    <div class="flex flex-col gap-3 ">
+        <div class="flex mt-2 p-2 justify-between items-center">
+            <div class="flex">
+                <h1 class="italic mx-2 text-gray-400"> Total  avaiable products</h1>
+                <h1>{{ products.length || 'Null' }}</h1>
+            </div>
+            <div class="flex justify-between w-12">
+                <UIcon :name="'i-heroicons:shopping-cart-solid'" class="text-xl text-gray-100 hover:text-gray-400"> </UIcon>
+                <UIcon :name="'i-heroicons:arrows-up-down-solid'" class="text-xl text-gray-100 hover:text-white"> </UIcon>
+            </div>
         </div>
         <div v-for="item in products" :key="item.id">
-            <div class="flex w-full h-[220px] py-2">
+            <ProductCard :product="item.tags" />
+            <!-- <div class="flex w-full h-[220px] py-2">
                 <div class="w-20"></div>
                 <div class="flex-1 rounded-xl relative shadow-sm shadow-gray-200 flex items-center">
                     <div
@@ -48,7 +55,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>

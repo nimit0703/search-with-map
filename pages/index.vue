@@ -15,7 +15,7 @@
           <!-- Listing part -->
           <ProductList :products="products" :icon="selectedService" />
         </div>
-        <div class="col-span-4 lg:col-span-3">
+        <div class="col-span-4 lg:col-span-3 pr-4">
           <!-- Map Part -->
           <GlobalMap :map-center="mapCenter" :map-zoom="mapZoom" @map-move="handleMapMove" :products="products"
             :icon="selectedService" />
@@ -27,7 +27,7 @@
 
   <USlideover v-model="isDrawerOpen" title="Dropdown in Drawer" prevent-close side="left" class="z-[9999]">
     <SlideoverContent @close="isDrawerOpen = false" @update-service="updateService" :service="selectedService"
-      :category="selectedCategory" />
+      :category="selectedCategory" class="rounded-lg" />
   </USlideover>
 </template>
 
@@ -75,6 +75,14 @@ const updateService = (data) => {
   selectedService.value = data.selectedService
   selectedCategory.value = data.selectedCategory
   isDrawerOpen.value = false
+  if(data.selectedLocation){
+    mapCords.value = {
+      lat:data.selectedLocation.lat,
+      lon: data.selectedLocation.lon,
+      zoom:15
+    }
+    mapCenter.value = [data.selectedLocation.lat, data.selectedLocation.lon]
+  }
   handleMapMove(mapCords.value)
 }
 // Category options (unique)
