@@ -1,21 +1,26 @@
 <template>
   <div class="h-screen flex ">
     <!-- Header / Top bar -->
-    <div class="flex items-start p-2">
+    <div class="sm:hidden xl:flex items-start p-2">
       <UButton label="Open Drawer" color="neutral" variant="subtle" @click="isDrawerOpen = true">
         <UIcon name="i-lucide-menu" class="size-5" />
+      </UButton>
+    </div>
+    <div class="lg:hidden absolute bg-gray-100 z-[999] top-24 left-2 p-0  rounded-md shadow-gray-800 shadow-md">
+      <UButton label="Open Drawer" size="sm" color="neutral" variant="subtle" @click="isDrawerOpen = true" class="rounded border">
+        <UIcon name="i-lucide-menu" class="size-4 bg-purple-600" />
       </UButton>
     </div>
 
     <!-- Scrollable content area -->
     <div class="flex-1 overflow-y-auto ">
-      <div class="grid grid-cols-4 gap-2  h-full ">
+      <div class="grid grid-cols-9 gap-2  h-full ">
         <div
-          class="hidden lg:block ax-h-100 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
+          class="hidden lg:block lg:col-span-3 2xl:col-span-3 ax-h-100 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
           <!-- Listing part -->
           <ProductList :products="products" :icon="selectedService" />
         </div>
-        <div class="col-span-4 lg:col-span-3 pr-4">
+        <div class="col-span-9 lg:col-span-6 pr-4">
           <!-- Map Part -->
           <GlobalMap :map-center="mapCenter" :map-zoom="mapZoom" @map-move="handleMapMove" :products="products"
             :icon="selectedService" />
