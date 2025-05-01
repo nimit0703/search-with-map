@@ -1,7 +1,7 @@
 <template>
   <div class="h-screen flex ">
     <!-- Header / Top bar -->
-    <div class="sm:hidden xl:flex items-start p-2">
+    <div class="hidden xl:flex items-start p-2">
       <UButton label="Open Drawer" color="neutral" variant="subtle" @click="isDrawerOpen = true">
         <UIcon name="i-lucide-menu" class="size-5" />
       </UButton>
